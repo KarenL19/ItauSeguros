@@ -36,7 +36,7 @@ public class Controller implements ProductsApi {
 
     @Override
     public ResponseEntity<Product> productsPost(ProductRequestDTO productRequestDTO) {
-        return ProductsApi.super.productsPost(productRequestDTO);
+        return ResponseEntity.ok(productService.productsPost(productRequestDTO));
     }
 
     @Override

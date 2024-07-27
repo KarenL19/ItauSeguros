@@ -15,8 +15,8 @@
     <description>ItauSeguros</description>
     <properties>
         <java.version>17</java.version>
-            <sonar.organization>karenl19</sonar.organization>
-            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>karenl19</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
 
@@ -34,9 +34,10 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.7.0</version>
         </dependency>
+        <!-- Dependency para H2 Database -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -82,7 +83,7 @@
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <generateBuilders>true</generateBuilders>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <useBeanValidation>false</useBeanValidation> <!-- Corrigido o erro de digitação -->
+                                <useBeanValidation>false</useBeanValidation>
                                 <returnResponse>true</returnResponse>
                                 <additionalModelTypeAnnotations>@SuppressWarnings({"hiding", "static-method", "unused"})</additionalModelTypeAnnotations>
                             </configOptions>

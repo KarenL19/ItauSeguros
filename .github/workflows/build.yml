@@ -2,7 +2,7 @@ name: SonarCloud
 on:
   push:
     branches:
-      - develop
+      - feauter_h2
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
