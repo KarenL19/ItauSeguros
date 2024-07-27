@@ -1,0 +1,348 @@
+openapi: 3.0.1
+info:
+  title: This service is responsible for calculating the rated price of an insurance product based on the provided base price.
+  version: 1.0.0
+servers:
+  - url: /system-insurance
+paths:
+  /products/{product_id}:
+    get:
+      summary: Retrieve a product
+      description: Retrieve a specific product by using a product ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      responses:
+        200:
+         $ref: '#/components/responses/ProductsResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        422:
+          $ref: '#/components/responses/UnprocessableEntity'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Update a product
+      description: Update specific product by using a product ID.
+      parameters:
+        - $ref: '#/components/parameters/Id'
+      requestBody:
+        $ref: '#/components/requestBodies/ProductRequestDTO'
+      responses:
+        200:
+          $ref: '#/components/responses/ProductsResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        422:
+          $ref: '#/components/responses/UnprocessableEntity'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /products:
+    get:
+      summary: Retrieve products
+      description: Retrieve all products, results are paginated.
+      parameters:
+        - $ref: '#/components/parameters/Category'
+        - $ref: '#/components/parameters/NameProduct'
+        - $ref: '#/components/parameters/LimitTemplate'
+        - $ref: '#/components/parameters/OffsetTemplate'
+        - $ref: '#/components/parameters/SortTemplate'
+      responses:
+        200:
+         $ref: '#/components/responses/ListProductsOk'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        422:
+          $ref: '#/components/responses/UnprocessableEntity'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      summary: Create a product
+      description: Create a new product.
+      requestBody:
+        $ref: '#/components/requestBodies/ProductRequestDTO'
+      responses:
+        201:
+          $ref: '#/components/responses/ProductsResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        422:
+          $ref: '#/components/responses/UnprocessableEntity'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  parameters:
+    Id:
+      name: product_id
+      in: path
+      description: Id product
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/Id'
+    Category:
+      name: category
+      in: query
+      description: Filter by category name
+      required: false
+      style: form
+      explode: false
+      schema:
+        $ref: '#/components/schemas/Category'
+    NameProduct:
+      name: name
+      in: query
+      description: Filter by product name
+      required: false
+      style: form
+      explode: false
+      schema:
+        $ref: '#/components/schemas/NameProduct'
+    LimitTemplate:
+      name: _limit
+      in: query
+      description: Number of records to be returned
+      required: false
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/LimitTemplate'
+    OffsetTemplate:
+      name: _offset
+      in: query
+      description: Number of records to be skipped
+      required: false
+      style: form
+      explode: true
+      schema:
+        $ref: '#/components/schemas/OffsetTemplate'
+    SortTemplate:
+      name: _sort
+      in: query
+      description: Sort the result
+      explode: true
+      style: form
+      schema:
+        $ref: '#/components/schemas/SortTemplate'
+      examples:
+        "200 - Found":
+          summary: Successfully found
+          value:
+            - asc
+            - desc
+  schemas:
+    Id:
+      type: string
+      description: Id product
+      example: "b0ec6b76-0ae6-4e90-9d80-573cbe53910d"
+    Category:
+      type: string
+      description: Name product
+      example: "VIDA"
+    NameProduct:
+      type: string
+      description: Name Product
+      example: "Seguro de Vida"
+    LimitTemplate:
+      maximum: 50
+      minimum: 1
+      exclusiveMinimum: false
+      exclusiveMaximum: false
+      type: integer
+    OffsetTemplate:
+      minimum: 0
+      exclusiveMinimum: false
+      type: integer
+      description: Number of records to be skipped
+    SortTemplate:
+      maxItems: 2
+      type: array
+      uniqueItems: true
+      description: Sort the result
+      items:
+        pattern: ^(\+|\-)([a-zA-Z]+)(\.([a-zA-Z]+))*(.\*)?$
+        type: string
+    ProductRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Product name
+        category:
+          type: string
+          description: Product category
+        basePrice:
+          type: number
+          format: double
+          description: Product base price
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Product ID
+        name:
+          type: string
+          description: Product name
+        category:
+          type: string
+          description: Product category
+        basePrice:
+          type: number
+          format: double
+          description: Product base price
+        tariffPrice:
+          type: number
+          format: double
+          description: Product tariff price
+    Pageable:
+      description: Pageable registers
+      allOf:
+        - $ref: '#/components/schemas/PageableTemplate'
+        - type: object
+          properties:
+            _content:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/Product'
+
+    PageableTemplate:
+      required:
+        - _content
+        - _pageable
+      type: object
+      properties:
+        _pageable:
+          required:
+            - _limit
+            - _offset
+            - _pageElements
+            - _pageNumber
+            - _totalElements
+            - _totalPages
+          type: object
+          properties:
+            _limit:
+              type: integer
+              minimum: 1
+              maximum: 50
+              exclusiveMinimum: false
+              description: Numbers of items per page
+            _offset:
+              type: integer
+              minimum: 0
+              exclusiveMinimum: false
+              description: Numbers of records skipped
+            _pageNumber:
+              type: integer
+              minimum: 0
+              exclusiveMinimum: false
+              description: Actual page number
+            _pageElements:
+              type: integer
+              minimum: 0
+              exclusiveMinimum: false
+              description: Number of elements returns in this page
+            _totalPages:
+              type: integer
+              minimum: 1
+              exclusiveMinimum: false
+              description: Total numbers of page
+            _totalElements:
+              type: integer
+              minimum: 0
+              exclusiveMinimum: false
+              description: Total numbers of elements
+        _content:
+          minItems: 0
+          type: array
+          items:
+            type: object
+    ErrorTemplate:
+      required:
+        - _details
+        - _errorCode
+        - _message
+        - timestamp
+        - _traceId
+      type: object
+      properties:
+        _errorCode:
+          minimum: 0
+          type: integer
+          format: int64
+          description: Error code
+        _message:
+          maxLength: 30
+          type: string
+          description: Error detail message
+        _timestamp:
+          type: string
+          description: Date and time when it happens
+        _traceId:
+          type: string
+          description: Data received in traceId header parametre or generated uuid, if not received
+          format: uuid
+  requestBodies:
+    ProductRequestDTO:
+      description: Product object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProductRequestDTO'
+    Product:
+      description: Product object
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+  responses:
+    ListProductsOk:
+      description: Succes response records files
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pageable'
+    ProductsResponse:
+      description: Response solicitation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorTemplate'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorTemplate'
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorTemplate'
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorTemplate'
