@@ -3,6 +3,8 @@ package com.store.itauseguros.mapper;
 import com.itauseguros.model.PageableProducts;
 import com.itauseguros.model.PageableProductsTemplatePageableProducts;
 import com.itauseguros.model.Product;
+import com.itauseguros.model.ProductRequestDTO;
+import com.store.itauseguros.domain.TariffCalculator;
 import com.store.itauseguros.model.ProductEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,7 @@ public class ProductMapper {
     public static PageableProducts toPageableProducts(List<Product> productList, Page<ProductEntity> products) {
         PageableProducts pageableProducts = new PageableProducts();
         pageableProducts.setContent(productList);
+
         PageableProductsTemplatePageableProducts pageableProductsTemplate = new PageableProductsTemplatePageableProducts();
         pageableProductsTemplate.setLimit(products.getSize());
         pageableProductsTemplate.setOffset(products.getPageable().getOffset());
@@ -35,5 +38,16 @@ public class ProductMapper {
         pageableProducts.setPageableProducts(pageableProductsTemplate);
 
         return pageableProducts;
+    }
+
+    public static ProductEntity toEntity(ProductRequestDTO productRequestDTO, String id) {
+        return ProductEntity.builder()
+                .id(String.valueOf(id))
+                .name(productRequestDTO.getName().toUpperCase())
+                .basePrice(productRequestDTO.getBasePrice())
+                .tariffPrice(TariffCalculator.calculateTariffPrice(
+                        productRequestDTO.getBasePrice(), productRequestDTO.getCategory()))
+                .category(productRequestDTO.getCategory().toUpperCase())
+                .build();
     }
 }

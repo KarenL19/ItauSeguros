@@ -32,9 +32,9 @@ public class Controller implements ProductsApi {
     }
 
     @Override
-    public ResponseEntity<PageableProducts> productsGet(String category, String name, Integer limit, Integer offset, String sort) {
+    public ResponseEntity<PageableProducts> productsGet(String id, String category, String name, Integer limit, Integer offset, String sort) {
         Pageable pageable = PageRequest.of(offset, limit, Sort.by(sort));
-        return ResponseEntity.ok(productService.productsGet(category, name, pageable));
+        return ResponseEntity.ok(productService.productsGet(id,category, name, pageable));
     }
 
     @Override
@@ -42,14 +42,10 @@ public class Controller implements ProductsApi {
         return ResponseEntity.ok(productService.productsPost(productRequestDTO));
     }
 
-    @Override
-    public ResponseEntity<Product> productsProductIdGet(String productId) {
-        return ProductsApi.super.productsProductIdGet(productId);
-    }
 
     @Override
     public ResponseEntity<Product> productsProductIdPut(String productId, ProductRequestDTO productRequestDTO) {
-        return ProductsApi.super.productsProductIdPut(productId, productRequestDTO);
+        return ResponseEntity.ok(productService.productsProductIdPut(productId,productRequestDTO));
     }
 
 

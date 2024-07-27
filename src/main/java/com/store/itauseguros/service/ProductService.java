@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProductService {
 
-    PageableProducts productsGet(String category, String name, Pageable pageable);
+    PageableProducts productsGet(String id, String category, String name,  Pageable pageable);
 
     Product  productsPost(ProductRequestDTO productRequestDTO);
 
-    Product  productsProductIdGet(String productId);
-
-    Product  productsProductIdPut(String productId, Product product);
+    Product  productsProductIdPut(String productId, ProductRequestDTO productRequestDTO);
 }

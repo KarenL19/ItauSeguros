@@ -6,22 +6,6 @@ servers:
   - url: /system-insurance
 paths:
   /products/{product_id}:
-    get:
-      summary: Retrieve a product
-      description: Retrieve a specific product by using a product ID.
-      parameters:
-        - $ref: '#/components/parameters/Id'
-      responses:
-        200:
-         $ref: '#/components/responses/ProductsResponse'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        404:
-          $ref: '#/components/responses/NotFound'
-        422:
-          $ref: '#/components/responses/UnprocessableEntity'
-        500:
-          $ref: '#/components/responses/InternalServerError'
     put:
       summary: Update a product
       description: Update specific product by using a product ID.
@@ -45,6 +29,7 @@ paths:
       summary: Retrieve products
       description: Retrieve all products, results are paginated.
       parameters:
+        - $ref: '#/components/parameters/IdProducts'
         - $ref: '#/components/parameters/Category'
         - $ref: '#/components/parameters/NameProduct'
         - $ref: '#/components/parameters/LimitTemplate'
@@ -81,6 +66,15 @@ paths:
 
 components:
   parameters:
+    IdProducts:
+      name: id
+      in: query
+      description: Id product
+      required: false
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/Id'
     Id:
       name: product_id
       in: path
