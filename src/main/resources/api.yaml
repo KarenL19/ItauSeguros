@@ -162,7 +162,7 @@ components:
       default: 0
       description: Number of records to be skipped
     SortTemplate:
-      maxItems:
+      maxItems: 0
       type: string
       uniqueItems: true
       description: Sort the result
@@ -205,14 +205,14 @@ components:
       description: PageableProducts registers
       allOf:
         - $ref: '#/components/schemas/PageableProductsTemplate'
-        - type: object
-          properties:
-            _content:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/Product'
-
+        - $ref: '#/components/schemas/ContentProduct'
+    ContentProduct:
+      type: object
+      properties:
+        _content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
     PageableProductsTemplate:
       required:
         - _content
