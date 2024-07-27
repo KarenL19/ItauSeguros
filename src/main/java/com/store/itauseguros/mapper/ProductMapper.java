@@ -1,7 +1,6 @@
 package com.store.itauseguros.mapper;
 
 import com.itauseguros.model.PageableProducts;
-import com.itauseguros.model.PageableProductsTemplate;
 import com.itauseguros.model.PageableProductsTemplatePageableProducts;
 import com.itauseguros.model.Product;
 import com.store.itauseguros.model.ProductEntity;
@@ -25,7 +24,6 @@ public class ProductMapper {
     public static PageableProducts toPageableProducts(List<Product> productList, Page<ProductEntity> products) {
         PageableProducts pageableProducts = new PageableProducts();
         pageableProducts.setContent(productList);
-
         PageableProductsTemplatePageableProducts pageableProductsTemplate = new PageableProductsTemplatePageableProducts();
         pageableProductsTemplate.setLimit(products.getSize());
         pageableProductsTemplate.setOffset(products.getPageable().getOffset());
