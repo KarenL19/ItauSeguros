@@ -24,7 +24,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetail, ex.getStatusCode());
     }
 
-    // Handle any other Exception not covered by the above handlers
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<ErrorTemplate> handleGenericException(Exception ex) {
         ErrorTemplate errorDetail = new ErrorTemplate();
