@@ -1,11 +1,14 @@
 package com.store.itauseguros.controller;
 
 import com.itauseguros.api.ProductsApi;
+import com.itauseguros.model.PageableProducts;
 import com.itauseguros.model.Product;
 import com.itauseguros.model.ProductRequestDTO;
 import com.store.itauseguros.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -30,8 +33,9 @@ public class Controller implements ProductsApi {
     }
 
     @Override
-    public ResponseEntity<Pageable> productsGet(String category, String name, Integer limit, Integer offset, Set<String> sort) {
-        return ProductsApi.super.productsGet(category, name, limit, offset, sort);
+    public ResponseEntity<PageableProducts> productsGet(String category, String name, Integer limit, Integer offset, String sort) {
+        Pageable pageable = PageRequest.of(offset, limit, Sort.by(sort));
+        return ResponseEntity.ok(productService.productsGet(category, name, pageable));
     }
 
     @Override

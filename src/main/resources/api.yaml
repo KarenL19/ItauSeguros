@@ -129,17 +129,12 @@ components:
     SortTemplate:
       name: _sort
       in: query
+      required: false
       description: Sort the result
       explode: true
       style: form
       schema:
         $ref: '#/components/schemas/SortTemplate'
-      examples:
-        "200 - Found":
-          summary: Successfully found
-          value:
-            - asc
-            - desc
   schemas:
     Id:
       type: string
@@ -158,20 +153,21 @@ components:
       minimum: 1
       exclusiveMinimum: false
       exclusiveMaximum: false
+      default: 10
       type: integer
     OffsetTemplate:
       minimum: 0
       exclusiveMinimum: false
       type: integer
+      default: 0
       description: Number of records to be skipped
     SortTemplate:
-      maxItems: 2
-      type: array
+      maxItems:
+      type: string
       uniqueItems: true
       description: Sort the result
-      items:
-        pattern: ^(\+|\-)([a-zA-Z]+)(\.([a-zA-Z]+))*(.\*)?$
-        type: string
+      default: "id"
+      pattern: ^(\+|\-)([a-zA-Z]+)(\.([a-zA-Z]+))*(.\*)?$
     ProductRequestDTO:
       type: object
       properties:
@@ -205,10 +201,10 @@ components:
           type: number
           format: double
           description: Product tariff price
-    Pageable:
-      description: Pageable registers
+    PageableProducts:
+      description: PageableProducts registers
       allOf:
-        - $ref: '#/components/schemas/PageableTemplate'
+        - $ref: '#/components/schemas/PageableProductsTemplate'
         - type: object
           properties:
             _content:
@@ -217,13 +213,13 @@ components:
                 allOf:
                   - $ref: '#/components/schemas/Product'
 
-    PageableTemplate:
+    PageableProductsTemplate:
       required:
         - _content
-        - _pageable
+        - _PageableProducts
       type: object
       properties:
-        _pageable:
+        _PageableProducts:
           required:
             - _limit
             - _offset
@@ -241,6 +237,7 @@ components:
               description: Numbers of items per page
             _offset:
               type: integer
+              format: int64
               minimum: 0
               exclusiveMinimum: false
               description: Numbers of records skipped
@@ -315,7 +312,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pageable'
+            $ref: '#/components/schemas/PageableProducts'
     ProductsResponse:
       description: Response solicitation
       content:
