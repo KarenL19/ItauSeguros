@@ -1,5 +1,8 @@
 package com.store.itauseguros.domain;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
@@ -17,7 +20,7 @@ public class TariffCalculator {
     public static double calculateTariffPrice(double basePrice, String category) {
         Double[] taxRates = TAX_RATES.get(category.toUpperCase());
         if (taxRates == null) {
-            throw new IllegalArgumentException("Category not found");
+             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Category not found");
         }
 
         double rawPrice = basePrice

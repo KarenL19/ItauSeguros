@@ -8,10 +8,13 @@ import com.store.itauseguros.mapper.ProductMapper;
 import com.store.itauseguros.model.ProductEntity;
 import com.store.itauseguros.repository.ProductRepository;
 import com.store.itauseguros.service.ProductService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageableProducts productsGet(String id, String category, String name, Pageable pageable) {
         Page<ProductEntity> productsPageable = fetchProducts(name, category, pageable, id);
+        if (productsPageable.getContent().isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
         List<Product> productList = new ArrayList<>();
         for (ProductEntity productEntity : productsPageable) {
             productList.add(ProductMapper.toProduct(productEntity));
@@ -55,15 +59,32 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product productsPost(ProductRequestDTO productRequestDTO) {
-        ProductEntity productEntity = ProductMapper.toEntity(productRequestDTO,String.valueOf(UUID.randomUUID()));
-        productRepository.save(productEntity);
-        return ProductMapper.toProduct(productEntity);
+        if (productRequestDTO == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid product data");
+        }
+        ProductEntity productEntity = getProductEntityFromDTO(UUID.randomUUID().toString(),productRequestDTO);
+        try {
+            productRepository.save(productEntity);
+        } catch (DataAccessException dae) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred during saving product", dae);
+        }
+       return ProductMapper.toProduct(productEntity);
     }
 
     @Override
     public Product productsProductIdPut(String productId, ProductRequestDTO productRequestDTO) {
-        ProductEntity productEntity = ProductMapper.toEntity(productRequestDTO,productId);
-        productRepository.findById(productId).ifPresent(entity -> productRepository.save(productEntity));
+        ProductEntity productEntity = getProductEntityFromDTO(productId, productRequestDTO);
+        productRepository.findById(productId)
+                .ifPresentOrElse(
+                        entity -> productRepository.save(productEntity),
+                        () -> {
+                            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+                        }
+                );
         return ProductMapper.toProduct(productEntity);
+    }
+
+    private ProductEntity getProductEntityFromDTO(String productId, ProductRequestDTO productRequestDTO) {
+        return ProductMapper.toEntity(productRequestDTO, productId);
     }
 }

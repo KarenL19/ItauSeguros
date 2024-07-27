@@ -272,7 +272,6 @@ components:
         _errorCode:
           minimum: 0
           type: integer
-          format: int64
           description: Error code
         _message:
           maxLength: 30
