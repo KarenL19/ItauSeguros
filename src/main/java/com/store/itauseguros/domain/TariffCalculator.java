@@ -22,7 +22,6 @@ public class TariffCalculator {
     }
 
     private TariffCalculator() {
-        // Private constructor to hide the implicit public one
     }
 
     public static double calculateTariffPrice(double basePrice, String category) {

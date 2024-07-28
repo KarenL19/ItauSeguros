@@ -22,3 +22,29 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  metrics:
+    export:
+      prometheus:
+        enabled: true  # Habilita a exportação de métricas para Prometheus
+
+    actuator:
+      endpoints:
+        web:
+          exposure:
+            include: '*'  # Exponha todos os endpoints, incluindo /actuator/prometheus
+      endpoint:
+        prometheus:
+          enabled: true  # Certifica-se de que o endpoint /actuator/prometheus está habilitado
+      metrics:
+        enable:
+          all: true  # Habilita todas as métricas
+management:
+  server:
+    port: 8081  # Porta do Actuator, se for diferente da porta principal da aplicação
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus  # Inclui o endpoint Prometheus na exposição
+          - health  # Inclui o endpoint de saúde
+          - info  # Inclui o endpoint de informações

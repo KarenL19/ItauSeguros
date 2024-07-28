@@ -22,8 +22,8 @@ import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    final
-    ProductRepository productRepository;
+
+    final ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
