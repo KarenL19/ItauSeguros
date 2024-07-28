@@ -92,23 +92,106 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
+            <!-- Maven Failsafe Plugin to run Cucumber tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>**/*.feature</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <cucumber.options>--plugin json:target/cucumber-reports/Cucumber.json</cucumber.options>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+
+            <!-- Cucumber Reporting Plugin -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>2.8.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-reports</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>CucumberWebGui</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+                            <cucumberOutput>${project.build.directory}/cucumber-reports/Cucumber.json</cucumberOutput>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- JaCoCo Plugin for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.7</version>
                 <executions>
+                    <!-- Prepare JaCoCo agent -->
                     <execution>
+                        <id>prepare-agent</id>
+                        <phase>test</phase>
                         <goals>
                             <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- Generate JaCoCo report -->
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
+                    <!-- Check JaCoCo rules -->
+                    <execution>
+                        <id>check</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <!-- Example rule: 80% line coverage -->
+                                <rule>
+                                    <element>CLASS</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.80</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
                 </executions>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/jacoco</outputDirectory>
+                </configuration>
             </plugin>
+
+            <!-- OpenAPI Generator Plugin -->
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -141,6 +224,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -155,4 +240,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>

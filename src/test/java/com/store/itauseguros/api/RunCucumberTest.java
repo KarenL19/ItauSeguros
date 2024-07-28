@@ -12,7 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = ItauSegurosApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @CucumberOptions(
         features = "src/test/java/com/store/itauseguros/resources/features",
-        glue = "com.store.itauseguros.api"
+        glue = "com.store.itauseguros.api",
+        plugin = {"json:target/cucumber-reports/Cucumber.json"}
 )
 public class RunCucumberTest {
 }

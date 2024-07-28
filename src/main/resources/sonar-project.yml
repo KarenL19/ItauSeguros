@@ -1,0 +1,11 @@
+# Definições básicas do projeto
+sonar:
+  projectKey: ItauSeguros
+  projectName: ItauSeguros
+  projectVersion: 1.0
+  sources: src/main/java
+  tests: src/test/java
+  cucumber:
+    reportPaths: target/cucumber-reports
+  junit:
+    reportPaths: target/surefire-reports
