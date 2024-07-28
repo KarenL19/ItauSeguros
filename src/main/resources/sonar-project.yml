@@ -1,6 +1,6 @@
 # Definições básicas do projeto
 sonar:
-  projectKey: ItauSeguros
+  projectKey: KarenL19_ItauSeguros
   projectName: ItauSeguros
   projectVersion: 1.0
   sources: src/main/java
