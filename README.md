@@ -218,7 +218,7 @@ Para os cenários de teste, foi utilizada a biblioteca Cucumber em conjunto com 
 
 
 ## Observação:
-Collection anexada na raiz do projeto.
+Collection anexada na raiz do projeto -> ItauSeguros.postman_collection.json
 
 
 
