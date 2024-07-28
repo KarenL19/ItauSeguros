@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "cecd9c68-d6a3-49d5-80e1-c976029ea858",
+		"name": "ItauSeguros",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8053758"
+	},
+	"item": [
+		{
+			"name": "post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Seguro Residencial\",\n    \"category\": \"VIDA\",\n    \"basePrice\": 100.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/system-insurance/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"system-insurance",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/system-insurance/products?category=VIDA&_sort=category",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"system-insurance",
+						"products"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "VIDA"
+						},
+						{
+							"key": "name",
+							"value": "Seguro de vida",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "4e230520-8968-46d6-9a4c-579fe81ccdea",
+							"disabled": true
+						},
+						{
+							"key": "_sort",
+							"value": "category"
+						},
+						{
+							"key": "_limit",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "_offset",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Seguro de carro\",\n    \"category\": \"AUTO\",\n    \"basePrice\": 4555.33\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/system-insurance/products/d5b67832-4964-4f17-a7e4-ad8bb739eecd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"system-insurance",
+						"products",
+						"d5b67832-4964-4f17-a7e4-ad8bb739eecd"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
