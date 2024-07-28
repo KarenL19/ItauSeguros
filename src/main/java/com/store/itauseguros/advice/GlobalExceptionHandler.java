@@ -28,7 +28,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorTemplate> handleGenericException(Exception ex) {
         ErrorTemplate errorDetail = new ErrorTemplate();
         errorDetail.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        errorDetail.setMessage(ex.getCause().getMessage());
+        String message = ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage();
+        errorDetail.setMessage(message);
         errorDetail.setTimestamp(LocalDateTime.now().toString());
         errorDetail.setTraceId(UUID.fromString(UUID.randomUUID().toString()));
 
