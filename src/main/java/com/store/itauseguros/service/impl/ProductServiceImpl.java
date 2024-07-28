@@ -1,4 +1,4 @@
-package com.store.itauseguros.service.Impl;
+package com.store.itauseguros.service.impl;
 
 
 import com.itauseguros.model.PageableProducts;

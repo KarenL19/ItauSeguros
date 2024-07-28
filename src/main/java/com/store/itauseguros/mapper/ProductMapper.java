@@ -13,6 +13,7 @@ import java.util.List;
 
 @Component
 public class ProductMapper {
+    private ProductMapper() {}
     public static Product toProduct(ProductEntity personEntity) {
         Product product = new Product();
         product.setId(personEntity.getId());
