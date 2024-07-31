@@ -28,7 +28,7 @@ Exemplo de Request
 Body:
 ```
   {
-    "name": "Seguro Residencial",
+    "name": "Seguro de Vida",
     "category": "VIDA",
     "basePrice": 100.00
   }
@@ -38,7 +38,7 @@ Exemplo de Response
 ```
 {
     "id": "6b35038b-3ac9-4b29-94d2-1955e1d41c86",
-    "name": "SEGURO RESIDENCIAL",
+    "name": "SEGURO DE VIDA",
     "category": "VIDA",
     "basePrice": 100.0,
     "tariffPrice": 103.2
