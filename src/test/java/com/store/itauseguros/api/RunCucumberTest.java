@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @CucumberOptions(
         features = "src/test/java/com/store/itauseguros/resources/features",
         glue = "com.store.itauseguros.api",
-        plugin = {"json:target/cucumber-reports/Cucumber.json"}
+        plugin = {"pretty","html:target/cucumber-reports/Cucumber.html"}
 )
 public class RunCucumberTest {
 }

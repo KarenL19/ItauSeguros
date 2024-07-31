@@ -47,4 +47,12 @@ management:
         include:
           - prometheus  # Inclui o endpoint Prometheus na exposição
           - health  # Inclui o endpoint de saúde
-          - info  # Inclui o endpoint de informações
+          - info
+
+sonar:
+  sources: src/main
+  cucumber:
+    jacoco:
+      reportPath: target/cucumber-reports/Cucumber.json
+  java:
+    binaries: target/classes

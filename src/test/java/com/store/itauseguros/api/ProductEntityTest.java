@@ -1,4 +1,4 @@
-package com.store.itauseguros;
+package com.store.itauseguros.api;
 
 import com.store.itauseguros.model.ProductEntity;
 import org.junit.Test;
