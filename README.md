@@ -18,6 +18,8 @@ O projeto consiste no desenvolvimento de uma API REST voltada para o cálculo, g
 ## Funcionalidades
 Como o PDF indicava a possibilidade de alterar as tarifas, implementei o método PUT para possibilitar essas alterações. Também implementei o método GET para visualizar as tarifas armazenadas e facilitar o uso do sistema, permitindo modificações de forma intuitiva.
 
+
+### Métodos
 - **POST**: Recebe informações sobre o produto de seguros, como Categoria, Nome e Preço Base. Utiliza esses dados para calcular o preço tarifado, armazena as informações no banco de dados e retorna o resultado na resposta.
 
   
