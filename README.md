@@ -3,6 +3,15 @@
 
 O projeto consiste no desenvolvimento de uma API REST voltada para o cálculo, gerenciamento e consulta de preços tarifados de produtos de seguros. A API oferece a capacidade de calcular o preço tarifado com base no preço base fornecido e na categoria do seguro, bem como consultar os cálculos realizados anteriormente.
 
+## Considerações
+- JDK 17
+- Antes de startar o projeto, é necessário rodar o openapi-generator para gerar as classes de request e response, assim como a interface de controller "ProductsApi".
+  ```
+    mvn openapi-generator:generate
+  ```  
+- Collection anexada na raiz do projeto -> ItauSeguros.postman_collection.json
+- O banco de dados utilizado é o H2, pois ele permite que o código seja facilmente validado por outras pessoas sem a necessidade de configurar um banco de dados local. Isso simplifica a validação e garante que todos possam testar o serviço com mínima configuração.
+-"
 
 
 
@@ -19,7 +28,7 @@ Exemplo de Request
 Body:
 ```
   {
-    "name": "Seguro Residencial",
+    "name": "Seguro de Vida",
     "category": "VIDA",
     "basePrice": 100.00
   }
@@ -29,7 +38,7 @@ Exemplo de Response
 ```
 {
     "id": "6b35038b-3ac9-4b29-94d2-1955e1d41c86",
-    "name": "SEGURO RESIDENCIAL",
+    "name": "SEGURO DE VIDA",
     "category": "VIDA",
     "basePrice": 100.0,
     "tariffPrice": 103.2
@@ -188,7 +197,7 @@ O projeto utiliza OpenAPI para gerar contratos de API e documentar as interfaces
 - **OpenAPI**: Gera classes com base no contrato definido, que são armazenadas no diretório target da aplicação. A interface API gerada é implementada no controlador (controller), garantindo que a implementação da API esteja alinhada com a documentação e o contrato definido.
 
 ### MetricsService
-A classe MetricsService é responsável por definir e gerenciar as métricas para monitoramento da aplicação usando Micrometer. Ela contém:
+A classe MetricsService é responsável por definir e gerenciar as métricas para monitoramento da aplicação usando Micrometer.A escolha por essa ferramenta baseia-se no fato de ser se facil aplicabilidade no código, facilitando inclusive a manutençã0.  Ela contém:
 
 - **Contadores**:
     - **productsGetCounter**: Conta o número de requisições para o endpoint productsGet.
@@ -215,9 +224,6 @@ Essas métricas são integradas com o Prometheus e, posteriormente, podem ser vi
 
 Para os cenários de teste, foi utilizada a biblioteca Cucumber em conjunto com JUnit para definir e executar os testes de integração. Retrofit foi escolhido para realizar as chamadas HTTP, pois permite a definição de métodos via interface, o que resulta em um código mais limpo e organizado.
 
-
-## Observação:
-Collection anexada na raiz do projeto.
 
 
 
