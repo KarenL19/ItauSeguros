@@ -16,6 +16,7 @@ O projeto consiste no desenvolvimento de uma API REST voltada para o cálculo, g
 
 
 ## Funcionalidades
+Como o PDF indicava a possibilidade de alterar as tarifas, implementei o método PUT para possibilitar essas alterações. Também implementei o método GET para visualizar as tarifas armazenadas e facilitar o uso do sistema, permitindo modificações de forma intuitiva.
 
 - **POST**: Recebe informações sobre o produto de seguros, como Categoria, Nome e Preço Base. Utiliza esses dados para calcular o preço tarifado, armazena as informações no banco de dados e retorna o resultado na resposta.
 
@@ -222,7 +223,9 @@ Essas métricas são integradas com o Prometheus e, posteriormente, podem ser vi
 
 ### Testes
 
-Para os cenários de teste, foi utilizada a biblioteca Cucumber em conjunto com JUnit para definir e executar os testes de integração. Retrofit foi escolhido para realizar as chamadas HTTP, pois permite a definição de métodos via interface, o que resulta em um código mais limpo e organizado.
+Para os cenários de teste, utilizei a biblioteca Cucumber em combinação com JUnit para definir e executar os testes de integração. O Retrofit foi escolhido para realizar as chamadas HTTP, pois sua abordagem baseada em interface permite uma definição mais clara e organizada dos métodos.
+
+Além disso, implementei classes específicas para testes com JUnit, com o objetivo de aumentar a cobertura dos testes e garantir que todas as classes fossem cobertas, especialmente aquelas que, por vezes, não são suficientemente testadas pelo Cucumber.
 
 
 
